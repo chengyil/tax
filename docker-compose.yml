@@ -1,0 +1,19 @@
+version: "3.2"
+services:
+  app: &tax
+    build: .
+    image: tax:latest
+    container_name: app
+    entrypoint: ./bin/app.rb
+    volumes:
+      - type: "bind"
+        source: .
+        target: /usr/src/tax
+  test:
+    <<: *tax
+    container_name: test
+    entrypoint: ./bin/run_functional_tests.rb
+  console:
+    <<: *tax
+    container_name: console
+    entrypoint: ./bin/console.rb
