@@ -31,11 +31,11 @@ module Tax
     end
 
     def married?
-      martial_status == :married
+      marital_status == :married
     end
 
     def single?
-      martial_status == :single
+      marital_status == :single
     end
   end
 end

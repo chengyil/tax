@@ -8,14 +8,16 @@ RSpec.describe 'Tax' do
       [
         "1\n",
         "6500000\n",
-        "3\n",
+        "2\n",
+        "1\n",
       ]
     end
 
     let(:expected) do
       [
         /What is your monthly income?/,
-        /Tax Relief : Declaration/,
+        /What is your marital status?/,
+        /How many dependant do you have?/,
         "Total income : 78000000\nAssessable income : 15000000\nPayable Tax : 750000\n"
 
       ]
@@ -46,7 +48,7 @@ RSpec.describe 'Tax' do
     let(:expected) do
       [
         /What is your monthly income?/,
-        /Tax Relief : Declaration/,
+        /What is your marital status?/,
         "Total income : 300000000\nAssessable income : 246000000\nPayable Tax : 31900000\n"
       ]
     end
