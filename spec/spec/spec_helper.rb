@@ -37,4 +37,3 @@ def fetch_stdout(pty)
 
   return res.join('').gsub(/\r/,'')
 end
-
