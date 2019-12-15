@@ -31,6 +31,7 @@ module Tax
         header
       when '2'
         console 'Thank you'
+        logger.info 'Thank you'
         exit 0
       else
         header
@@ -39,6 +40,10 @@ module Tax
 
     def console(out)
       STDOUT.puts out
+    end
+
+    def logger
+      Tax.logger
     end
   end
 end

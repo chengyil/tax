@@ -3,7 +3,7 @@ module Tax
     class App
       def run
         config = parse
-        Tax::Config.merge!(config)
+        Tax.config.merge!(config)
         console = Tax::Console.new(STDIN)
         console.run
       end

@@ -18,7 +18,7 @@ module Tax
         taxpayable = get_taxpayable(assessable_income)
         console "Total income : #{total_income}"
         console "Assessable income : #{assessable_income}"
-        console "Payable Tax : #{taxpayable}"
+        console "Payable Tax : %d" % taxpayable
       end
 
       private
