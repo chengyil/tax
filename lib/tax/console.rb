@@ -27,7 +27,10 @@ module Tax
     def execute(input)
       case input
       when '1'
+        Tax::Console::IndividualTax.new(io).run
+        header
       when '2'
+        console 'Thank you'
         exit 0
       else
         header
@@ -39,3 +42,4 @@ module Tax
     end
   end
 end
+require_relative 'console/individual_tax.rb'

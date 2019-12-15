@@ -5,7 +5,7 @@ module Tax
         config = parse
         Tax::Config.merge!(config)
         console = Tax::Console.new(STDIN)
-        console.run(STDIN)
+        console.run
       end
 
       def parse(param=ARGV)
