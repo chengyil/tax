@@ -1,3 +1,4 @@
+require 'yaml'
 require 'pathname'
 module Tax
   class Configuration
@@ -19,7 +20,15 @@ module Tax
     end
 
     def lib_path 
-      @root_path ||= root_path.join('lib')
+      @lib_path ||= root_path.join('lib')
+    end
+
+    def config_path 
+      @config_path ||= root_path.join('config')
+    end
+
+    def tax_rates
+      @tax_rates ||= YAML.load(config_path.join('tax_rates.yml').read)
     end
   end
 end

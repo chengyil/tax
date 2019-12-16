@@ -18,63 +18,57 @@ module Tax
 
       def tax_payable
         return @tax_payable if @tax_payable
-
-        income = assessable_income
         @taxpayable = []
-
-        if income < 50000000
-          payable = income * 0.05
-          @taxpayable << Tax::Entry::TaxPayable.new(type: 'Tax Payable', amount: payable, description: 'Tax on first %s' % income)
-          income = 0 
-        else
-          income -= 50000000
-          payable = 50000000 * 0.05
-          @taxpayable << Tax::Entry::TaxPayable.new(type: 'Tax Payable', amount: payable, description: 'Tax on first 50.000.000 IDR')
+        tax_rates.each_index do |index|
+          bucket = tax_rates[index]
+          min = bucket[:min].to_idr
+          max = bucket[:max].to_idr if bucket[:max]
+          if assessable_income > min
+            logger.info "Current Bucket is : #{bucket}, assessable_income is #{assessable_income}"
+            if bucket[:max].nil? || assessable_income <= max
+              current_assessable = assessable_income - min
+            elsif bucket[:max] && assessable_income > max
+              current_assessable = max - min
+            end
+            current_payable = current_assessable * bucket[:rate]
+            logger.info "Current payable for bucket is : #{current_payable} from #{current_assessable} with rate of #{bucket[:rate]}"
+            if index.zero?
+              @taxpayable << Tax::Entry::TaxPayable.new(type: 'Tax Payable', amount: current_payable, description: 'Tax on first %s' % current_assessable)
+            else
+              @taxpayable << Tax::Entry::TaxPayable.new(type: 'Tax Payable', amount: current_payable, description: 'Tax on next %s' % current_assessable)
+            end
+          end
         end
 
-        if income > 0 && income < 200000000 
-          payable = income * 0.15
-          @taxpayable << Tax::Entry::TaxPayable.new(type: 'Tax Payable', amount: payable, description: 'Tax on next %s' % income)
-          income = 0 
-        elsif income > 0 && income >= 200000000 
-          income -= 200000000
-          payable = 200000000 * 0.15
-          @taxpayable << Tax::Entry::TaxPayable.new(type: 'Tax Payable', amount: payable, description: 'Tax on next 200.000.000 IDR')
-        end
-
-        if income > 0 && income < 250000000 
-          payable = income * 0.25
-          @taxpayable << Tax::Entry::TaxPayable.new(type: 'Tax Payable', amount: payable, description: 'Tax on next %s' % income)
-          income = 0 
-        elsif income > 0 && income >= 250000000 
-          income -= 250000000
-          payable = 250000000 * 0.25
-          @taxpayable << Tax::Entry::TaxPayable.new(type: 'Tax Payable', amount: payable, description: 'Tax on next 250.000.000 IDR')
-        end
-
-        if income > 0
-          payable = income * 0.30
-          @taxpayable << Tax::Entry::TaxPayable.new(type: 'Tax Payable', amount: payable, description: 'Tax on next %s' % income)
-          income = 0 
-        end
         @taxpayable
+      end
+
+      def tax_rates
+        Tax.config.tax_rates[:tax_rates]
       end
 
       # TODO
       # Extractable
       def report
-        console "Total income : #{total_income}"
+        output = StringIO.new
+        output.puts "Total income : #{total_income}"
         reliefs.each do |relief|
-          console "%s %s %s" % [relief.type, relief.amount, relief.description]
+          output.puts "%s %s %s" % [relief.type, relief.amount, relief.description]
         end
-        console "Assessable income : #{assessable_income}"
+        output.puts "Assessable income : #{assessable_income}"
         tax_payable.each do |payable|
-          console "%s: %s, %s" % [payable.type, payable.amount, payable.description]
+          output.puts "%s: %s, %s" % [payable.type, payable.amount, payable.description]
         end
-        console "Payable Tax : %s" % total_payable
+        output.puts "Payable Tax : %s" % total_payable
+        output.rewind
+        output.read
       end
 
       private
+
+      def logger
+        Tax.logger
+      end
 
       def console(out)
         STDOUT.puts out

@@ -9,4 +9,6 @@ require 'tax.rb'
 
 begin
   Tax::Cli::App.new.run
+rescue SystemExit
+  STDOUT.puts "Thank You"
 end

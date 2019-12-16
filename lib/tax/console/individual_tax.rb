@@ -16,7 +16,7 @@ module Tax
         end
 
         assessment = Tax::Assessment::Individual.new(tax_payer: tax_payer)
-        assessment.report
+        console assessment.report
       end
 
       private

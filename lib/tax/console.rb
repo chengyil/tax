@@ -30,8 +30,7 @@ module Tax
         Tax::Console::IndividualTax.new(io).run
         header
       when '2'
-        console 'Thank you'
-        logger.info 'Thank you'
+        logger.info 'Exited'
         exit 0
       else
         header
