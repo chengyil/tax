@@ -89,19 +89,8 @@ module Tax
       # Possible to extract this out
       # Command interface for relief
       def get_relief
-        if tax_payer.married?
-          case tax_payer.dependant
-          when 0
-            58500000
-          when 1
-            63000000
-          when 2
-            67000000
-          else
-            72000000
-          end
-        else
-          54000000
+        Tax::Relief.qualified_relief(tax_payer: tax_payer).reduce(0) do |amount, relief|
+          amount += relief.amount
         end
       end
 
@@ -110,13 +99,13 @@ module Tax
         # TODO
         # Tax payable interface
         taxpayable += if assessable_income < 50000000
-                       payable = assessable_income * 0.05
-                       assessable_income = 0 
-                       payable
-                     else
-                       assessable_income -= 50000000
-                       50000000 * 0.05
-                     end
+                        payable = assessable_income * 0.05
+                        assessable_income = 0 
+                        payable
+                      else
+                        assessable_income -= 50000000
+                        50000000 * 0.05
+                      end
         p taxpayable
 
         taxpayable += if assessable_income > 0 && assessable_income < 200000000 

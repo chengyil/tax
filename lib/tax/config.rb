@@ -13,8 +13,13 @@ module Tax
     def log_path
       @log_path ||= root_path.join('log','tax.log')
     end
+
     def root_path
       @root_path ||= Pathname.new(__dir__).parent.parent
+    end
+
+    def lib_path 
+      @root_path ||= root_path.join('lib')
     end
   end
 end

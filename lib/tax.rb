@@ -1,8 +1,12 @@
+# frozen_string_literal: true
+
 require 'forwardable'
 require_relative 'tax/log_device.rb'
 require_relative 'tax/config.rb'
 require_relative 'tax/error.rb'
 require_relative 'tax/person.rb'
+require_relative 'tax/relief.rb'
+require_relative 'tax/assessment.rb'
 require_relative 'tax/cli.rb'
 require_relative 'tax/console.rb'
 

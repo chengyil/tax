@@ -14,7 +14,24 @@ RSpec.describe Tax::Person do
     end
   end
 
-  context 'maritial status' do
+  context 'income' do
+    it 'can set monthly income' do
+      expect { subject.monthly_income = 650000 }.not_to raise_error
+      expect(subject.monthly_income).to be 650000
+      expect(subject.total_income).to be 7800000
+    end
+
+    it 'default to 0' do
+      expect(subject.monthly_income).to be 0
+      expect(subject.total_income).to be 0
+    end
+
+    it 'can only accept positive numeric' do
+      expect { subject.monthly_income = 'none' }.to raise_error Tax::InvalidMonthlyIncomeValue
+    end
+  end
+
+  context 'marital status' do
     it 'can be single' do
       expect { subject.marital_status = 'single' }.not_to raise_error
       expect(subject.marital_status).to be :single
