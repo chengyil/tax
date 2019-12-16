@@ -34,7 +34,7 @@ RSpec.describe Tax::Relief do
     it 'able to get qualified reliefs amount' do
       reliefs = Tax::Relief.qualified_relief(tax_payer: tax_payer)
       dependant_relief = reliefs.find { |relief| Tax::Relief::Dependant === relief }
-      expect(dependant_relief.amount).to be 63000000 
+      expect(dependant_relief.amount.amount).to eql 63000000 
     end
 
   end

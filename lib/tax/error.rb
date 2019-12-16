@@ -2,6 +2,8 @@ module Tax
   class Error < StandardError;end
 
   class PersonError < Error;end
+  
+  class IDRError < Error;end
 
   class InvalidMaritalValue < PersonError;end
 

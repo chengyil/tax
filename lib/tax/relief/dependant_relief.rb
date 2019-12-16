@@ -17,16 +17,16 @@ module Tax
         if tax_payer.married?
           case tax_payer.dependant
           when 0
-            58500000
+            Tax::Entry::Relief.new(amount: 58500000, type: 'Dependant Relief', description: 'Married with no dependant')
           when 1
-            63000000
+            Tax::Entry::Relief.new(amount: 63000000, type: 'Dependant Relief', description: 'Married with 1 dependant')
           when 2
-            67000000
+            Tax::Entry::Relief.new(amount: 67000000, type: 'Dependant Relief', description: 'Married with 2 dependants')
           else
-            72000000
+            Tax::Entry::Relief.new(amount: 72000000, type: 'Dependant Relief', description: 'Married with 3 dependants')
           end
         else
-          54000000
+          Tax::Entry::Relief.new(amount: 54000000, type: 'Dependant Relief', description: 'Single')
         end
       end
     end

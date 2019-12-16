@@ -16,14 +16,10 @@ module Tax
         end
 
         assessment = Tax::Assessment::Individual.new(tax_payer: tax_payer)
-        console "Total income : #{tax_payer.total_income}"
-        console "Assessable income : #{assessment.assessable_income}"
-        console "Payable Tax : %d" % assessment.tax_payable
-
+        assessment.report
       end
 
       private
-      attr_accessor :relief, :total_income, :assessable_income
 
       # TODO
       # Possible to extract this out

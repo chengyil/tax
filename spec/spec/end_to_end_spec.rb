@@ -18,7 +18,7 @@ RSpec.describe 'Tax' do
         /What is your monthly income?/,
         /What is your marital status?/,
         /How many dependant do you have?/,
-        "Total income : 78000000\nAssessable income : 15000000\nPayable Tax : 750000\n"
+        "Total income : 78.000.000 IDR\nDependant Relief 63.000.000 IDR Married with 1 dependant\nAssessable income : 15.000.000 IDR\nTax Payable: 750.000 IDR, Tax on first 15.000.000 IDR\nPayable Tax : 750.000 IDR\n"
 
       ]
     end
@@ -49,7 +49,7 @@ RSpec.describe 'Tax' do
       [
         /What is your monthly income?/,
         /What is your marital status?/,
-        "Total income : 300000000\nAssessable income : 246000000\nPayable Tax : 31900000\n"
+        "Total income : 300.000.000 IDR\nDependant Relief 54.000.000 IDR Single\nAssessable income : 246.000.000 IDR\nTax Payable: 2.500.000 IDR, Tax on first 50.000.000 IDR\nTax Payable: 29.400.000 IDR, Tax on next 196.000.000 IDR\nPayable Tax : 31.900.000 IDR\n"
       ]
     end
 
