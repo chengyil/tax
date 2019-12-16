@@ -13,7 +13,7 @@ module Tax
         @tax_payer = param[:tax_payer] 
       end
 
-      def amount
+      def entry
         if tax_payer.married?
           case tax_payer.dependant
           when 0

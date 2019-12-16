@@ -28,7 +28,11 @@ module Tax
     end
 
     def tax_rates
-      @tax_rates ||= YAML.load(config_path.join('tax_rates.yml').read)
+      if config_path.join('tax_rates.yml').exist?
+        @tax_rates ||= YAML.load(config_path.join('tax_rates.yml').read)
+      else
+        raise ConfigError, "tax rate config file is missing #{config_path.join('tax_rates.yml')}"
+      end
     end
   end
 end

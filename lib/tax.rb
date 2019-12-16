@@ -29,6 +29,10 @@ module Tax
       return self if Tax::IDR === self
       Tax::IDR.new(self)
     end
+
+    def logger
+      Tax.logger
+    end
   end
 
   Object.include GlobalMethods

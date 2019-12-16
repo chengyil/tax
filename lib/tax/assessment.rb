@@ -43,10 +43,6 @@ module Tax
         @taxpayable
       end
 
-      def tax_rates
-        Tax.config.tax_rates[:tax_rates]
-      end
-
       # TODO
       # Extractable
       def report
@@ -66,12 +62,8 @@ module Tax
 
       private
 
-      def logger
-        Tax.logger
-      end
-
-      def console(out)
-        STDOUT.puts out
+      def tax_rates
+        Tax.config.tax_rates[:tax_rates]
       end
 
       def total_income
@@ -79,7 +71,7 @@ module Tax
       end
 
       def reliefs
-        @reliefs ||= Tax::Relief.qualified_relief(tax_payer: tax_payer).map(&:amount)
+        @reliefs ||= Tax::Relief.qualified_relief(tax_payer: tax_payer).map(&:entry)
       end
     end
   end

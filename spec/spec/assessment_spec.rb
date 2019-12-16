@@ -25,4 +25,8 @@ RSpec.describe Tax::Assessment::Individual do
   it 'able to calculate tax payable' do
     expect(subject.tax_payable.first.amount).to eql 750000
   end
+
+  it 'able to calculate total payable' do
+    expect(subject.total_payable).to eql 750000
+  end
 end

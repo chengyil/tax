@@ -1,6 +1,8 @@
 module Tax
   class Error < StandardError;end
 
+  class ConfigError < StandardError;end
+
   class PersonError < Error;end
   
   class IDRError < Error;end

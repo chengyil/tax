@@ -24,18 +24,11 @@ RSpec.describe Tax::Relief do
       expect(Tax::Relief.qualified_relief(tax_payer: tax_payer).size).to be 1
     end
 
-    it 'able to get qualified reliefs amount' do
+    it 'able to get qualified reliefs entry' do
       reliefs = Tax::Relief.qualified_relief(tax_payer: tax_payer)
       reliefs.each do |relief|
-        expect(relief).to respond_to(:amount)
+        expect(relief).to respond_to(:entry)
       end
     end
-
-    it 'able to get qualified reliefs amount' do
-      reliefs = Tax::Relief.qualified_relief(tax_payer: tax_payer)
-      dependant_relief = reliefs.find { |relief| Tax::Relief::Dependant === relief }
-      expect(dependant_relief.amount.amount).to eql 63000000 
-    end
-
   end
 end
