@@ -1,7 +1,7 @@
 require_relative 'spec_helper.rb'
 RSpec.describe Tax::Assessment::Individual do
-  let (:monthly_income) { 650000 }
-  let (:total_income) { 7800000 }
+  let (:monthly_income) { 6500000 }
+  let (:total_income)   { 78000000 }
   let (:marital_status) { :married }
   let (:married) { true }
   let (:single) { false }
@@ -16,7 +16,14 @@ RSpec.describe Tax::Assessment::Individual do
     allow(tax_payer).to receive(:dependant).and_return(dependant)
     tax_payer
   end
+  subject { described_class.new(tax_payer: tax_payer) }
+
   it 'able to calculate tax payable' do
-    described_class.new(tax_payer: tax_payer)
+    expect(subject).to respond_to(:tax_payable)
   end
+
+  it 'able to calculate tax payable' do
+    expect(subject.tax_payable).to be 750000.0
+  end
+
 end

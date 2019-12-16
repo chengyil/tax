@@ -14,16 +14,10 @@ module Tax
         if tax_payer.married?
           tax_payer.dependant = get_dependant
         end
-        @relief = get_relief
-        # monthy_income by 12 : this might not always be 12
-        # We could also need to include bonus?
-        # Technically we don't really need annual
-        @total_income = tax_payer.total_income
-        @assessable_income = total_income - relief > 0 ? total_income - relief : 0
-        taxpayable = get_taxpayable(assessable_income)
-        console "Total income : #{total_income}"
-        console "Assessable income : #{assessable_income}"
-        console "Payable Tax : %d" % taxpayable
+        assessment = Tax::Assessment::Individual.new(tax_payer: tax_payer)
+        console "Total income : #{assessment.total_income}"
+        console "Assessable income : #{assessment.assessable_income}"
+        console "Payable Tax : %d" % assessment.tax_payable
       end
 
       private
@@ -83,61 +77,6 @@ module Tax
           end
         end
         dependant
-      end
-
-      # TODO
-      # Possible to extract this out
-      # Command interface for relief
-      def get_relief
-        Tax::Relief.qualified_relief(tax_payer: tax_payer).reduce(0) do |amount, relief|
-          amount += relief.amount
-        end
-      end
-
-      def get_taxpayable(assessable_income)
-        taxpayable = 0
-        # TODO
-        # Tax payable interface
-        taxpayable += if assessable_income < 50000000
-                        payable = assessable_income * 0.05
-                        assessable_income = 0 
-                        payable
-                      else
-                        assessable_income -= 50000000
-                        50000000 * 0.05
-                      end
-        p taxpayable
-
-        taxpayable += if assessable_income > 0 && assessable_income < 200000000 
-                        payable = assessable_income * 0.15
-                        assessable_income = 0 
-                        payable
-                      elsif assessable_income > 0 && assessable_income >= 200000000 
-                        assessable_income -= 200000000
-                        200000000 * 0.15
-                      else
-                        0
-                      end
-
-        taxpayable += if assessable_income > 0 && assessable_income < 250000000 
-                        payable = assessable_income * 0.25
-                        assessable_income = 0 
-                        payable
-                      elsif assessable_income > 0 && assessable_income >= 250000000 
-                        assessable_income -= 250000000
-                        250000000 * 0.25
-                      else
-                        0
-                      end
-
-        taxpayable += if assessable_income > 0
-                        payable = assessable_income * 0.30
-                        assessable_income = 0 
-                        payable
-                      else
-                        0
-                      end
-        taxpayable
       end
 
       def console(out)
