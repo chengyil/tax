@@ -55,6 +55,8 @@ module Tax
         taxpayable
       end
 
+      private
+
       def total_income
         tax_payer.total_income
       end

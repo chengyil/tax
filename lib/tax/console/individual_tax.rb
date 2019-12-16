@@ -14,10 +14,12 @@ module Tax
         if tax_payer.married?
           tax_payer.dependant = get_dependant
         end
+
         assessment = Tax::Assessment::Individual.new(tax_payer: tax_payer)
-        console "Total income : #{assessment.total_income}"
+        console "Total income : #{tax_payer.total_income}"
         console "Assessable income : #{assessment.assessable_income}"
         console "Payable Tax : %d" % assessment.tax_payable
+
       end
 
       private

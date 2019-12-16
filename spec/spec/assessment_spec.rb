@@ -25,5 +25,4 @@ RSpec.describe Tax::Assessment::Individual do
   it 'able to calculate tax payable' do
     expect(subject.tax_payable).to be 750000.0
   end
-
 end
